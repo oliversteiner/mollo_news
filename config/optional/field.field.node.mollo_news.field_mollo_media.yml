@@ -1,0 +1,32 @@
+uuid: 4cca75c9-ab4a-4ede-879b-cd48ded52ec1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_mollo_media
+    - media.type.audio_track
+    - media.type.image
+    - media.type.video_remote
+    - node.type.mollo_news
+id: node.mollo_news.field_mollo_media
+field_name: field_mollo_media
+entity_type: node
+bundle: mollo_news
+label: Media
+description: 'Images, Video and Audio'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      audio_track: audio_track
+      image: image
+      video_remote: video_remote
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: audio_track
+field_type: entity_reference
