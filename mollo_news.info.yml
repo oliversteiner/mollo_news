@@ -10,3 +10,4 @@ dependencies:
   - views_admintools
   - pathauto
   - mollo_utils
+  - content_translation
