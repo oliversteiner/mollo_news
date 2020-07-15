@@ -4,6 +4,6 @@
 #
 mollo_news.main:
   title: 'News'
-  description: 'List of News Articles'
+  description: 'List of news Articles'
   route_name: mollo_news.list
   parent: 'system.admin_content'

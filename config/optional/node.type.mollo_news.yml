@@ -1,3 +1,4 @@
+uuid: ab50ed40-599c-4947-a071-14562a95a2af
 langcode: en
 status: true
 dependencies:
@@ -9,7 +10,7 @@ third_party_settings:
     parent: ''
 name: News
 type: mollo_news
-description: ''
+description: Mollo
 help: ''
 new_revision: false
 preview_mode: 1
