@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\mollo_utils\Utility\ViewFilter;
 
 /**
  * Implements hook_help().
@@ -39,25 +40,8 @@ function mollo_news_form_alter(&$form, &$form_state, $form_id)
   // Show Menu with Names on List Filter
   if ($form['#id'] === 'views-exposed-form-mollo-news-admin-list' ||
     $form['#id'] === 'views-exposed-form-mollo-news-visitor-list'
-
   ) {
-
-    $nids = \Drupal::entityQuery('node')->condition('type', 'mollo_event')->execute();
-    $nodes = \Drupal\node\Entity\Node::loadMultiple($nids);
-    $options = ['' => 'All'];
-
-    foreach ($nodes as $nid => $node) {
-      $value = $node->get('field_mollo_name')->getString();
-
-      if (isset($value)) {
-        $options[$value] = $value;
-      }
-    }
-
-    if (isset($form['event'])) {
-      $form['event']['#type'] = 'select';
-      $form['event']['#options'] = $options;
-      $form['event']['#size'] = 1;
-    }
+    $form = ViewFilter::filter_mollo_event($form);
   }
 }
+
