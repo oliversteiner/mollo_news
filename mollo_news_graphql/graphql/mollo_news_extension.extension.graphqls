@@ -1,0 +1,9 @@
+extend type Mutation {
+  createMolloNews(data: MolloNewsInput): MolloNewsResponse
+}
+extend type Query {
+  mollo_news(
+    offset: Int = 0
+    limit: Int = 10
+  ): MolloNewsConnection!
+}

@@ -1,0 +1,10 @@
+name: 'News GraphQL'
+type: module
+description: 'News GraphQL For Mollo Creator'
+package: Mollo
+core: 8.x
+dependencies:
+  - graphql:graphql
+  - node:node
+  - mollo_creator_drupal
+core_version_requirement: ^8 || ^9

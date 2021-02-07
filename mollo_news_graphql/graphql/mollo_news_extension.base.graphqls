@@ -1,0 +1,30 @@
+
+extend type Query {
+  mollo_news(
+    offset: Int = 0
+    limit: Int = 10
+  ): MolloNewsConnection!
+}
+
+type MolloNews {
+  id: Int!
+  title: String!
+  author: String
+}
+
+type MolloNewsConnection {
+  total: Int!
+  items: [MolloNews!]
+}
+
+
+type MolloNewsResponse implements Response {
+  errors: [Violation]
+  mollo_news: MolloNews
+}
+
+
+input MolloNewsInput {
+  title: String!
+  description: String
+}
