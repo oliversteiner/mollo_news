@@ -5,13 +5,13 @@ namespace Drupal\mollo_news_graphql\Plugin\GraphQL\Schema;
 use Drupal\graphql\GraphQL\ResolverBuilder;
 use Drupal\graphql\GraphQL\ResolverRegistry;
 use Drupal\graphql\Plugin\GraphQL\Schema\ComposableSchema;
-use Drupal\mollo_creator_graphql\Plugin\GraphQL\Wrapper\MolloConnection;
+use Drupal\graphql_examples\Wrappers\QueryConnection;
 
 /**
  * @Schema(
  *   id = "mollo_news_base",
  *   name = "Mollo News Base",
- *   extensions = "mollo_news",
+ *   extensions = "mollo",
  *   description = "MolloNews - Lists",
  * )
  */
@@ -87,13 +87,13 @@ class MolloNewsBase extends ComposableSchema {
    */
   protected function addConnectionFields(string $type, ResolverRegistry $registry, ResolverBuilder $builder) {
     $registry->addFieldResolver($type, 'total',
-      $builder->callback(function (MolloConnection $connection) {
+      $builder->callback(function (QueryConnection $connection) {
         return $connection->total();
       })
     );
 
     $registry->addFieldResolver($type, 'items',
-      $builder->callback(function (MolloConnection $connection) {
+      $builder->callback(function (QueryConnection $connection) {
         return $connection->items();
       })
     );

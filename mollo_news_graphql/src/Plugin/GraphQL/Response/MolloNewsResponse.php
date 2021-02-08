@@ -20,11 +20,11 @@ class MolloNewsResponse extends Response {
   /**
    * Sets the content.
    *
-   * @param \Drupal\Core\Entity\EntityInterface|null $entity
+   * @param \Drupal\Core\Entity\EntityInterface|null $mollo_news
    *   The mollo_news to be served.
    */
-  public function setMolloNews(?EntityInterface $entity): void {
-    $this->mollo_news = $entity;
+  public function setMolloNews(?EntityInterface $mollo_news): void {
+    $this->mollo_news = $mollo_news;
   }
 
   /**
