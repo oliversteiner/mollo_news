@@ -6,7 +6,7 @@ use Drupal\Core\Cache\RefinableCacheableDependencyInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\graphql\Plugin\GraphQL\DataProducer\DataProducerPluginBase;
-use Drupal\graphql_examples\Wrappers\QueryConnection;
+use Drupal\mollo_news_graphql\Plugin\GraphQL\Wrappers\QueryConnectionNews;
 use GraphQL\Error\UserError;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -84,7 +84,11 @@ class MolloNewsQuery extends DataProducerPluginBase implements ContainerFactoryP
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  public function resolve(int $offset, int $limit, RefinableCacheableDependencyInterface $metadata): QueryConnection {
+  public function resolve(int $offset, int $limit, RefinableCacheableDependencyInterface $metadata): QueryConnectionNews {
+
+    dpm('MolloNewsQuery - resolve');
+
+
     if ($limit > static::MAX_LIMIT) {
       throw new UserError(sprintf('Exceeded maximum query limit: %s.', static::MAX_LIMIT));
     }
@@ -92,8 +96,8 @@ class MolloNewsQuery extends DataProducerPluginBase implements ContainerFactoryP
     $storage = $this->entityTypeManager->getStorage('node');
     $entityType = $storage->getEntityType();
     $query = $storage->getQuery()
-      ->currentRevision()
-      ->accessCheck();
+      ->currentRevision();
+    //   ->accessCheck();
 
     $query->condition($entityType->getKey('bundle'), 'mollo_news');
     $query->range($offset, $limit);
@@ -101,7 +105,9 @@ class MolloNewsQuery extends DataProducerPluginBase implements ContainerFactoryP
     $metadata->addCacheTags($entityType->getListCacheTags());
     $metadata->addCacheContexts($entityType->getListCacheContexts());
 
-    return new QueryConnection($query);
+    dpm($query);
+
+    return new QueryConnectionNews($query);
   }
 
 }

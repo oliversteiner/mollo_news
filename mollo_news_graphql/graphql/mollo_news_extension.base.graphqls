@@ -15,6 +15,7 @@ type MolloNews {
 type MolloNewsConnection {
   total: Int!
   items: [MolloNews!]
+  test: [String]
 }
 
 

@@ -5,7 +5,7 @@ namespace Drupal\mollo_news_graphql\Plugin\GraphQL\Schema;
 use Drupal\graphql\GraphQL\ResolverBuilder;
 use Drupal\graphql\GraphQL\ResolverRegistry;
 use Drupal\graphql\Plugin\GraphQL\Schema\ComposableSchema;
-use Drupal\graphql_examples\Wrappers\QueryConnection;
+use Drupal\mollo_news_graphql\Plugin\GraphQL\Wrappers\QueryConnectionNews;
 
 /**
  * @Schema(
@@ -16,6 +16,7 @@ use Drupal\graphql_examples\Wrappers\QueryConnection;
  * )
  */
 class MolloNewsBase extends ComposableSchema {
+
   /**
    * {@inheritdoc}
    */
@@ -28,6 +29,10 @@ class MolloNewsBase extends ComposableSchema {
 
     // Re-usable connection type fields.
     $this->addConnectionFields('MolloNewsConnection', $registry, $builder);
+
+
+
+
 
     return $registry;
   }
@@ -66,18 +71,7 @@ class MolloNewsBase extends ComposableSchema {
    * @param \Drupal\graphql\GraphQL\ResolverBuilder $builder
    */
   protected function addQueryFields(ResolverRegistry $registry, ResolverBuilder $builder) {
-    $registry->addFieldResolver('Query', 'mollo_news',
-      $builder->produce('entity_load')
-        ->map('type', $builder->fromValue('node'))
-        ->map('bundles', $builder->fromValue(['mollo_news']))
-        ->map('id', $builder->fromArgument('id'))
-    );
 
-    $registry->addFieldResolver('Query', 'mollo_news',
-      $builder->produce('query_mollo_news')
-        ->map('offset', $builder->fromArgument('offset'))
-        ->map('limit', $builder->fromArgument('limit'))
-    );
   }
 
   /**
@@ -86,16 +80,9 @@ class MolloNewsBase extends ComposableSchema {
    * @param \Drupal\graphql\GraphQL\ResolverBuilder $builder
    */
   protected function addConnectionFields(string $type, ResolverRegistry $registry, ResolverBuilder $builder) {
-    $registry->addFieldResolver($type, 'total',
-      $builder->callback(function (QueryConnection $connection) {
-        return $connection->total();
-      })
-    );
+    dpm('addConnectionFields - News');
 
-    $registry->addFieldResolver($type, 'items',
-      $builder->callback(function (QueryConnection $connection) {
-        return $connection->items();
-      })
-    );
+
   }
+
 }

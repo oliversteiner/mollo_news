@@ -7,6 +7,7 @@ use Drupal\graphql\GraphQL\ResolverRegistryInterface;
 use Drupal\graphql\GraphQL\Response\ResponseInterface;
 use Drupal\graphql\Plugin\GraphQL\SchemaExtension\SdlSchemaExtensionPluginBase;
 use Drupal\mollo_news_graphql\Plugin\GraphQL\Response\MolloNewsResponse;
+use Drupal\mollo_news_graphql\Plugin\GraphQL\Wrappers\QueryConnectionNews;
 use Exception;
 
 /**
@@ -77,6 +78,40 @@ class MolloNewsExtension extends SdlSchemaExtensionPluginBase {
       )
     );
 
+    $registry->addFieldResolver('Query', 'mollo_news',
+      $builder->produce('entity_load')
+        ->map('type', $builder->fromValue('node'))
+        ->map('bundles', $builder->fromValue(['mollo_news']))
+        ->map('id', $builder->fromArgument('id'))
+    );
+
+    $registry->addFieldResolver('Query', 'mollo_news',
+      $builder->produce('query_mollo_news')
+        ->map('offset', $builder->fromArgument('offset'))
+        ->map('limit', $builder->fromArgument('limit'))
+    );
+
+    $registry->addFieldResolver('MolloNewsConnection', 'test',
+      $builder->callback(function (QueryConnectionNews $connection) {
+        dpm('addFieldResolver - Test');
+        return $connection->test();
+      })
+    );
+
+    $registry->addFieldResolver('MolloNewsConnection', 'total',
+      $builder->callback(function (QueryConnectionNews $connection) {
+        return $connection->total();
+      })
+    );
+
+    $registry->addFieldResolver('MolloNewsConnection', 'items',
+      $builder->callback(function (QueryConnectionNews $connection) {
+        dpm('items');
+        return $connection->items();
+        // return $connection->test();
+      })
+    );
+
 
     // Response type resolver.
     $registry->addTypeResolver('Response', [
@@ -84,6 +119,7 @@ class MolloNewsExtension extends SdlSchemaExtensionPluginBase {
       'resolveResponse',
     ]);
   }
+
 
   /**
    * Resolves the response type.
